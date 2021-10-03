@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+	$(function(){
+		$("#checkJson").click(function(){
+			var jsonStr = '{"name":["이순신","임꺽정"]}';
+			var jsonInfo = JSON.parse(jsonStr);
+			var output = "회원이름<br>";
+			output += "=======<br>";
+			for(var i in jsonInfo.name){
+				output += jsonInfo.name[i] + "<br>";
+			}
+			$("#output").html(output);
+		});
+	});
+</script>
+	<button type="button" id="checkJson">출력</button>
+	<div id="output"></div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form method="post" action="Servlet3Ex" >
+		<table border=1>
+			<tr>
+				<th align="center">아이디</th>
+				<td align="center">
+					<input type="text" name="id" size = "50">
+				</td>
+			</tr>
+			<tr>
+				<th align="center">나이</th>
+				<td align="center">
+					<input type="text" name ="age" size="50">
+				</td>
+			</tr>
+			<tr>
+				<th align="center">자기소개</th>
+				<td align="center">
+					<Textarea name="content" rows="14" cols="50"></Textarea>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center">
+					<input type="submit" value="이름 확인">
+				</td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>
+
+
+<!-- element에 child element가 없거나 element values가 없으면 <element attribute = 'attribute value' /> 로 태그를 끝낼 수 있다.
+	 
+	 속성
+	 method : 어떤 방식으로 데이터를 넘겨 줄 것인지를 결정
+	 		  get과 post 방식 중에 하나를 선택
+	 		  post는 사용자가 입력한 내용을 발송할 때 그 내용을 공개하지 않는다. (주소에 데이터를 싣지 않고 보낸다, 데이터가 숨겨져서 데이터가 일괄적으로 넘어감)
+	 		  get은 사용자가 입력한 결과를 알 수 있도록 내용을 공개 -> url(주소)에 입력 데이터를 같이 넣어서 보내는 방식.(속도는 빠르나 보안에 취약, 만약 개인정보를 get방식으로 보내면 url 주소에 개인 정보가 노출됨, 리소스?입력이름 = 입력값)
+	 		 	ParamServlet?id=pinksung&age=15
+	  -->

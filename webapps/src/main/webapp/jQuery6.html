@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
+function fn_process(){
+	var _id = $('#id').val();
+	if(_id ==''){
+		alert('id를 입력하세요');
+		return;
+	}
+	$.ajax({
+		type:"post",
+		async:true,
+		url:"MemberServlet",
+		dataType: "text",
+		data: {id: _id},
+		success:function (data,textStatus) {
+			if(data == 'usable'){
+				$('#message').text("사용할수 있는 id입니다.");
+				$('#btn_duplicate').prop("disabled",true);
+			} else {
+				$('#message').text("사용할 수 없는 id입니다.");
+			}
+		},
+		error:function(data,textStatus){
+			alert("에러가 발생했습니다.");
+		},
+		complete:function(data,textStatus) {
+			alert("작업을 완료했습니다.");
+		}
+	});
+}
+</script>
+</head>
+<body>
+	<input type="text" id="id"/>
+	<input type="button" value="중복체크" onclick="fn_process()"/>
+	<div id="message"></div>
+</body>
+</html>

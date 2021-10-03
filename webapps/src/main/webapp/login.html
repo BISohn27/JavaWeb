@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
+	function fn_process(){
+		var id = $('#id').val();
+		var pwd = $('#pwd').val();
+		if(id ==''|| pwd==''){
+			alert('id를 입력하세요');
+			return;
+		}
+		$.ajax({
+			type:"post",
+			async:true,
+			url:"AjaxMemberController",
+			dataType:"text",
+			data: {id:id, pw:pwd},
+			success:function(data,textStatus){
+				if(data='true'){
+					$('#message').text("로그인 성공");
+					$('#btnDuplicate').prop("disabled",true);
+				}else{
+					$('#message').text("로그인 실패");
+				}
+			},
+			error:function(data,textStatus){
+				alert("에러가 발생했습니다.");
+			},
+			complete:function(data,textStatus){
+			}
+		});
+	}
+</script>
+</head>
+<body>
+	<input type="text" id="id"/>
+	<input type="password" id="pwd"/>
+	<input type="button" id="btnDuplicate" value="로그인" onclick="fn_process()"/>
+	<div id="message"></div>
+</body>
+</html>
