@@ -77,7 +77,7 @@ a.headeranchor{
 </head>
 <body>
 <div id="headerleft">
-	<a id="headericon" href="/shopping/NonageServlet?command=index"><i class="fas fa-atom fa-2x"></i></a>
+	<a id="headericon" href="../service/index.product"><i class="fas fa-atom fa-2x"></i></a>
 </div>
 	<c:choose>
 	<c:when test="${not empty member}">

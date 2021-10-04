@@ -1,4 +1,4 @@
-package controller.action;
+package membercontroller.action;
 
 import java.io.IOException;
 
@@ -20,7 +20,7 @@ public class LoginAction implements Action{
 			if(member != null) {
 				HttpSession session = request.getSession();
 				session.setAttribute("member", member);
-				response.sendRedirect("/shopping/NonageServlet?command=index");
+				response.sendRedirect("service/index.product");
 			}else {
 				response.sendRedirect("/shopping/member/Login.jsp?status=loginfail");
 			}

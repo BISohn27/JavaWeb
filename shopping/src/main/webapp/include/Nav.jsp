@@ -26,11 +26,11 @@
 </head>
 <body>
 	<ul class="navul">
-		<li><a class="navanchor" href="#">Heels</a></li>
-		<li><a class="navanchor" href="#">Boots</a></li>
-		<li><a class="navanchor" href="#">Sandals</a></li>
-		<li><a class="navanchor" href="#">Sneakers</a></li>
-		<li><a class="navanchor" href="#">On sale</a></li>
+		<li><a class="navanchor" href="/service/heels.product">Heels</a></li>
+		<li><a class="navanchor" href="/service/boots.product">Boots</a></li>
+		<li><a class="navanchor" href="/service/sandals.product">Sandals</a></li>
+		<li><a class="navanchor" href="/service/sneakers.product">Sneakers</a></li>
+		<li><a class="navanchor" href="/service/onsale.product">On sale</a></li>
 	</ul>
 </body>
 </html>

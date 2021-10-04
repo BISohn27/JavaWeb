@@ -8,7 +8,10 @@ import javax.servlet.annotation.WebListener;
 import javax.sql.DataSource;
 
 import controller.LogInController;
-import dao.MemberDAO;
+import controller.MemberAddController;
+import controller.MemberDeleteController;
+import controller.MemberListController;
+import controller.MemberUpdateController;
 import dao.MemberDAOImpl;
 
 @WebListener
@@ -27,15 +30,23 @@ public class ContextLoaderListener implements ServletContextListener{
 			//웹 어플리케이션 마다 하나씩 생성되는 ServletContext 객체(웹 어플리케이션에서 서블릿 간 공유되는 값들을 저장한 일종의 메타 데이터 저장 객체)를 불러와
 			ServletContext sc = event.getServletContext();
 			
-			MemberDAOImpl dao = new MemberDAOImpl();
-			InitialContext initialContext = new InitialContext(); 
-			DataSource ds = (DataSource)initialContext.lookup("java:comp/env/jdbc/oracle");
-			dao.setDataSource(ds);
-			sc.setAttribute("memberdao", dao);
+//			MemberDAOImpl dao = new MemberDAOImpl();
+//			InitialContext initialContext = new InitialContext(); 
+//			
+//			DataSource ds = (DataSource)initialContext.lookup("java:comp/env/jdbc/oracle");
+//			dao.setDataSource(ds);
+//			
+//			//생성된 페이지 컨트롤러들은 application context 객체의 해시테이블에 담기게 된다.
 //			sc.setAttribute("/auth/login.do", new LogInController().setMemberDao(dao));
+//			sc.setAttribute("/member/list.do", new MemberListController().setMemberDao(dao));
+//			sc.setAttribute("/member/add.do", new MemberAddController().setMemberDao(dao));
+//			sc.setAttribute("/member/delete.do", new MemberDeleteController().setMemberDao(dao));
+//			sc.setAttribute("/member/update.do", new MemberUpdateController().setMemberDao(dao));
+			
 			//sc.getInitParameter("contextConfigLocation"): 서블릿 컨텍스트에 저장된 초기화 관련 매개변수 중 contextConfigLocation으로 매핑된 매개변수롤 가져온다.
 			//sc.getRealPath(sc.getInitParameter("contextConfigLocation")) : 상대 주소로 저장된 위의 매개변수 값을 상대 경로가 아닌 실제 경로를 반환하는 메소드
 			//이를 통해 properties 파일이 존재하는 실제 경로를 얻을 수 있다.
+			
 			String propertiesPath=sc.getRealPath(sc.getInitParameter("contextConfigLocation"));
 			//properties가 들어있는 실제 경로를 ApplicationContext 생성자에 넣어 properties파일에 저장된 key와 value를 가지고 실제 실행해야 되는 서블릿을 알아낸다.
 			applicationContext = new ApplicationContext(propertiesPath);

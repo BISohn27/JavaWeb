@@ -1,8 +1,9 @@
 //Page Controller
 
-package controller;
+package membercontroller;
 
-import controller.action.*;
+import membercontroller.action.*;
+import productcontrolleraction.IndexAction;
 
 public class ActionFactory {
 	private static ActionFactory instance = new ActionFactory();
@@ -12,9 +13,7 @@ public class ActionFactory {
 	}	
 	public Action getAction(String command) {
 		Action action = null;
-		if(command.equals("index")) {
-			action = new IndexAction();
-		} else if((command.equals("join"))) {
+		if((command.equals("join"))) {
 			action = new JoinAction();
 		} else if(command.equals("login")) {
 			action = new LoginAction();

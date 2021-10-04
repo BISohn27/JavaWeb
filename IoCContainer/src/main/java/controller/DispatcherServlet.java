@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import dto.Member;
 import listener.ApplicationContext;
 import listener.ContextLoaderListener;
+import util.ServletRequestDataBinder;
 
 /**
  * Servlet implementation class DispatcherServletTest
@@ -34,29 +35,43 @@ public class DispatcherServlet extends HttpServlet {
     	response.setContentType("text/html;charset=UTF-8");
     	request.setCharacterEncoding("UTF-8");
     	String servletPath = request.getServletPath();
-    	System.out.println(servletPath);
     	try {
     		ServletContext sc = this.getServletContext();
     		//요청과 세션을 전달하기 위하여 해쉬맵을 만들고, 그 안에 key 값을 통해 pagecontroller에서 사용할 수 있도록 저장한다.
     		HashMap<String,Object> model = new HashMap<String,Object>();
     		model.put("session", request.getSession());
     		model.put("request", request);
-    		model.put("memberdao", sc.getAttribute("memberdao"));
+    		
+//    		model.put("memberdao", sc.getAttribute("memberdao"));
 //    		Controller pageController = (Controller)sc.getAttribute(servletPath);
     		
     		//applicationcontext 객체로부터 필요한 페이지 컨트롤러를 servletpath를 통해 얻어온다.
     		//applicationcontext 객체의 해시 테이블에는 %.do key가 저장되어 있고, 매핑된 key의 실제 controller가 값으로 들어 있다.
     		ApplicationContext ctx = ContextLoaderListener.getApplicationContext();
     		Controller pageController = (Controller)ctx.getBean(servletPath);
+
     		if(pageController == null) {
     			throw new Exception("요청한 서비스를 찾을 수 없습니다.");
     		}
     		
-    		if("/member/add.do".equals(servletPath)) {
-    			model.put("memberadd", new Member().setEmail(request.getParameter("email"))
-    					.setName(request.getParameter("name")).setPassword(request.getParameter("pwd")));
-    		}else {
-    			
+//    		if("/member/add.do".equals(servletPath)) {
+//    			if(request.getAttribute("email") != null) {
+//    			model.put("member", new Member().setEmail(request.getParameter("email"))
+//    					.setName(request.getParameter("name")).setPassword(request.getParameter("pwd")));
+//    			}
+//    		}else if("/member/list.do".equals(servletPath)){
+//    			
+//    		}else if("/member/update.do".equals(servletPath)) {
+//    			if(request.getParameter("email") != null) {
+//    				model.put("member", new Member().setEmail("email").setPassword("pwd").setName("name"));
+//    			}else {
+//    				model.put("no", request.getParameter("no"));
+//    			}
+//    		}else if("/member/delete.do".equals(servletPath)) {
+//    			model.put("no", request.getParameter("no"));
+//    		}
+    		if(pageController instanceof DataBinding) {
+    			prepareRequestData(request,model,(DataBinding)pageController);
     		}
     		
     		//페이지 컨트롤러는 dao와 데이터 가공을 한 후 다음에 가야할 page 주소를 반환하기 때문에 이 주소를 저장하여
@@ -92,6 +107,17 @@ public class DispatcherServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+	}
+	
+	private void prepareRequestData(HttpServletRequest request, HashMap<String,Object> model, DataBinding dataBinding) 
+			throws Exception {
+		Object[] dataBinders = dataBinding.getDataBinders();
+		for(int i =0; i< dataBinders.length; i+=2) {
+			String dataName = (String)dataBinders[i];
+			Class<?> dataType = (Class<?>)dataBinders[i+1];
+			Object dataObj = ServletRequestDataBinder.bind(request, dataType, dataName);
+			model.put(dataName,dataObj);
+		}
 	}
 
 }

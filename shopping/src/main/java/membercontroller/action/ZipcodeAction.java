@@ -1,4 +1,4 @@
-package controller.action;
+package membercontroller.action;
 
 import java.io.IOException;
 import java.util.ArrayList;

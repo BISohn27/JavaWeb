@@ -1,4 +1,4 @@
-package controller.action;
+package membercontroller.action;
 
 import java.io.IOException;
 
@@ -29,7 +29,7 @@ public class JoinAction implements Action{
 		try {
 			memberDAO.insertMember(member);
 			session.setAttribute("loginUser", member);
-			url = "NonageServlet?command=index";
+			url = "/shopping/member/Login.jsp";
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

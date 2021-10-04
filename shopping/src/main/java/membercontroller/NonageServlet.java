@@ -1,54 +1,50 @@
-package userinfo;
+ //Front Controller
+
+package membercontroller;
 
 import java.io.IOException;
-import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dto.MemberVO;
+import membercontroller.action.Action;
 
 /**
- * Servlet implementation class UserInfoList
+ * Servlet implementation class NonageServlet
  */
-@WebServlet("/UserInfoListServlet")
-public class UserInfoListServlet extends HttpServlet {
+@WebServlet("/NonageServlet")
+public class NonageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserInfoListServlet() {
+    public NonageServlet() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		MySqlUserInfoDao userinfoDao=new MySqlUserInfoDao();
-		List<MemberVO> list = null;
-		try {
-			list = userinfoDao.selectList();
-			request.setAttribute("list", list);
-			RequestDispatcher rd = request.getRequestDispatcher("/jsp/userinfo/UserInfoList.jsp");
-			rd.include(request, response);
-		}catch(Exception e) {
-			e.printStackTrace();
-			RequestDispatcher rd = request.getRequestDispatcher("/error/Error.jsp");
-			rd.include(request, response);
+		String command = request.getParameter("command");
+		ActionFactory factory = ActionFactory.getInstance();
+		Action action = factory.getAction(command);
+		if(action != null) {
+			action.execute(request, response);
 		}
 	}
-
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
+
 }
