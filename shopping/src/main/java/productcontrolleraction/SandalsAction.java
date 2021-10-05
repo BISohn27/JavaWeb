@@ -19,6 +19,6 @@ public class SandalsAction implements Controller{
 		ArrayList<ProductVO> list = productDao.getListSandals();
 		model.put("sandalslist", list);
 		
-		return "/shopping/service/Sandals.jsp";
+		return "Sandals.jsp";
 	}
 }

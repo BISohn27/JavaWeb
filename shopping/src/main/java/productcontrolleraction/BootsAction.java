@@ -19,6 +19,6 @@ public class BootsAction implements Controller{
 		ArrayList<ProductVO> list = productDao.getListBoots();
 		model.put("bootslist", list);
 		
-		return "/shopping/service/Boots.jsp";
+		return "Boots.jsp";
 	}
 }

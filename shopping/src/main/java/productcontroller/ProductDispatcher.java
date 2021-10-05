@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dto.ProductVO;
 import listener.ApplicationContext;
 import listener.ContextLoaderListener;
 import productcontrolleraction.Controller;
@@ -35,7 +36,6 @@ public class ProductDispatcher extends HttpServlet {
     	response.setContentType("text/html;charset=UTF-8");
     	String servletPath= request.getServletPath();
     	try {
-    		ServletContext sc = getServletContext();
     		HashMap<String,Object> model = new HashMap<String,Object>();
     		model.put("request", request);
     		model.put("response", response);
@@ -46,7 +46,10 @@ public class ProductDispatcher extends HttpServlet {
     			throw new Exception("요청한 페이지를 찾을 수 없습니다.");
     		}
     		
-    		if("/service/index.product".equals(servletPath)) {
+    		if("/service/product.product".equals(servletPath)) {
+    			if(request.getParameter("pseq") != null) {
+    				model.put("product",  new ProductVO().setPseq(Integer.parseInt(request.getParameter("pseq"))));
+    			}
     		}
     		
     		String viewUrl = pageController.execute(model);
