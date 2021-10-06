@@ -7,6 +7,9 @@
 	<meta charset="UTF-8">
 	<title>Main Page</title>
 	<style>
+	body{
+		background-color:#F5F5F5
+	}
 	header{
 		height: 10vh;
 		border-bottom: 1px solid lightgray;

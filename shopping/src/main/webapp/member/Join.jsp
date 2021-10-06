@@ -7,9 +7,12 @@
 <title>Member Form</title>
 <link rel="shortcut icon" href="#">
 <style>
+	body{
+		background-color:#F5F5F5
+	}
 	header{
 		width:100%;
-		height:30%;
+		height:10vh;
 		border-bottom: 1px solid lightgray;
 		display: flex;
 		justify-content: space-between;

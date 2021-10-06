@@ -13,6 +13,6 @@ public class LogoutAction implements Action{
 			throws ServletException, IOException{
 		HttpSession session = request.getSession();
 		session.invalidate();
-		response.sendRedirect("NonageServlet?command=index");
+		response.sendRedirect("service/index.product");
 	}
 }
