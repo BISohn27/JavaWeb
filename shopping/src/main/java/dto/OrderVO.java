@@ -13,7 +13,23 @@ public class OrderVO {
 	private String phone;
 	private String pname;
 	private int price2;
+	private int cnt;
+	private int sum;
 	
+	public int getCnt() {
+		return cnt;
+	}
+	public OrderVO setCnt(int cnt) {
+		this.cnt = cnt;
+		return this;
+	}
+	public int getSum() {
+		return sum;
+	}
+	public OrderVO setSum(int sum) {
+		this.sum = sum;
+		return this;
+	}
 	public int getOdseq() {
 		return odseq;
 	}

@@ -250,7 +250,8 @@ public class ProductDAO {
 			pstmt.setInt(1, product.getPseq());
 			rs=pstmt.executeQuery();
 			if(rs.next()) {
-						product.setName(rs.getString(2))
+						product.setPseq(rs.getInt(1))
+								.setName(rs.getString(2))
 								.setKind(rs.getString(3))
 								.setPrice1(rs.getInt(4))
 								.setPrice2(rs.getInt(5))

@@ -25,6 +25,7 @@ nav {
 }
 section{
 	width:100%
+	
 }
 article{
 	width: 100%;

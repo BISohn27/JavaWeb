@@ -1,5 +1,7 @@
 package ordercontroller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -7,6 +9,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
 import dao.OrderDAO;
+import dto.CartVO;
+import dto.OrderVO;
 
 public class OrderController extends MultiActionController{
 	private OrderDAO orderDao;
@@ -20,11 +24,12 @@ public class OrderController extends MultiActionController{
 		String id = request.getParameter("id");
 		ModelAndView mav = new ModelAndView();
 		String viewName = getViewName(request);
+		ArrayList<CartVO> list = orderDao.getCartList(id);
 		
-		if(orderDao.getCartList(id).isEmpty()) {
+		if(list.isEmpty()) {
 			mav.addObject("cart",null);
 		}else {
-			mav.addObject("cart",orderDao.getCartList(id));
+			mav.addObject("cart",list);
 		}
 		mav.setViewName(viewName);
 		
@@ -36,11 +41,45 @@ public class OrderController extends MultiActionController{
 		String id = request.getParameter("id");
 		ModelAndView mav = new ModelAndView();
 		String viewName = getViewName(request);
+		ArrayList<OrderVO> list = orderDao.getOrderList(id);
 		
-		if(orderDao.getOrderList(id).isEmpty()) {
+		if(list.isEmpty()) {
 			mav.addObject("order",null);
 		}else {
-			mav.addObject("order",orderDao.getOrderList(id));
+			mav.addObject("order",list);
+		}
+		mav.setViewName(viewName);
+		
+		return mav;
+	}
+	
+	public ModelAndView addcart(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		request.setCharacterEncoding("utf-8");
+		String id = request.getParameter("id");
+		int pseq = Integer.parseInt(request.getParameter("pseq"));
+		int quantity = Integer.parseInt(request.getParameter("text"));
+		ModelAndView mav = new ModelAndView();
+		
+		if(orderDao.setCart(id,pseq,quantity)!=-1) {
+			mav.addObject("id",id);
+			mav.setViewName("redirect:/order/cart.order");
+		}
+		
+		return mav;
+	}
+	
+	public ModelAndView orderdetail(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		request.setCharacterEncoding("utf-8");
+		String id = request.getParameter("id");
+		int oseq = Integer.parseInt(request.getParameter("oseq"));
+		ModelAndView mav = new ModelAndView();
+		String viewName = getViewName(request);
+		ArrayList<OrderVO> list = orderDao.getOrderDetailList(id, oseq);
+		
+		if(list.isEmpty()) {
+			mav.addObject("orderdetail",null);
+		}else {
+			mav.addObject("orderdetail",list);
 		}
 		mav.setViewName(viewName);
 		

@@ -41,12 +41,14 @@
 		<div id="imagebox">
 			<img src="/shopping/product_images/${product.image}" alt="상품"/>
 		</div>
-		<form action="../order/cart.order" method="post">
+		<form action="../order/addcart.order" method="post">
 			<table>
 				<tr><td>상품명</td><td>${product.name }</td></tr>
 				<tr><td>가격</td><td>${product.price2 }</td></tr>
-				<tr><td>수량</td><td><input type="text"/></td>
+				<tr><td>수량</td><td><input type="text" name="quantity" /></td>
 			</table>
+			<input type="hidden" name="id" value="${member.id }">
+			<input type="hidden" name="pseq" value="${product.pseq }">
 			<input type="submit" value="장바구니">
 		</form>
 		<div id="productcontent">

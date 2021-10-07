@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<!-- mapper의 클래스 경로 -->
+<mapper namespace="com.example.sba.mapper.MemberMapper">
+<!-- id=controller가 찾는 값, resulttype=반환되는 타입 -->
+    <select id="getName" resultType="java.lang.String" >
+		select MNAME from MEMBERS where EMAIL = #{email}
+    </select>
+    <select id="getMember" resultType="com.example.sba.domain.Member" >
+		select * from MEMBERS where EMAIL = #{email}
+    </select>
+    
+    <insert id="createMember" parameterType="java.util.HashMap">
+    	INSERT INTO MEMBERS(EMAIL,PWD,MNAME,CRE_DATE,MOD_DATE) 
+		VALUES(#{EMAIL}, #{PWD}, #{MNAME}, NOW(), NOW())
+    </insert>
+    
+</mapper>
