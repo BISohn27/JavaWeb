@@ -23,6 +23,12 @@ public class ActionFactory {
 			action = new ZipcodeAction();
 		} else if(command.equals("idcheck")) {
 			action = new IdCheckAction();
+		} else if(command.equals("modify")) {
+			action = new ModifyAction();
+		} else if(command.equals("password")) {
+			action = new PasswordAction();
+		} else if(command.equals("delete")) {
+			action = new DeleteAction();
 		}
 		
 		return action;

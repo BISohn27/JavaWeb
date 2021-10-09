@@ -31,6 +31,7 @@ public class NonageServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8"); 
 		String command = request.getParameter("command");
 		ActionFactory factory = ActionFactory.getInstance();
 		Action action = factory.getAction(command);

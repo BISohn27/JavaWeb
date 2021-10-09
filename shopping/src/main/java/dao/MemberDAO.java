@@ -21,7 +21,7 @@ public class MemberDAO {
 		Connection conn = DBAction.getInstance().getConnection();
 		PreparedStatement pstmt = null;
 		try {
-			pstmt = conn.prepareStatement("INSERT INTO MEMBER (ID,PWD,NAME,EMAIL,ZIP_NUM,ADDRESS,PHONE) VALUES(?,?,?,?,?,?,?)");
+			pstmt = conn.prepareStatement("INSERT INTO MEMBERs (ID,PWD,NAME,EMAIL,ZIP_NUM,ADDRESS,PHONE) VALUES(?,?,?,?,?,?,?)");
 			pstmt.setString(1, member.getId());
 			pstmt.setString(2, member.getPwd());
 			pstmt.setString(3, member.getName());
@@ -100,4 +100,65 @@ public class MemberDAO {
 		return idCheck;
 	}
 	
+	public int updateMemberInfo(String id,String email, String zipcode, String address, String phone) {
+		int result=-1;
+		Connection conn = DBAction.getInstance().getConnection();
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement("UPDATE MEMBER SET EMAIL=?, ZIPCODE=?, ADDRESS=?, PHONE=? WHERE ID=?");
+			pstmt.setString(1, email);
+			pstmt.setString(2, zipcode);
+			pstmt.setString(3, address);
+			pstmt.setString(4, phone);
+			pstmt.setString(5, id);
+			result = pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			}catch(SQLException e) {}
+		}
+		return result;
+	}
+	
+	public int updatePassword(String id, String pwd) {
+		int result=-1;
+		Connection conn = DBAction.getInstance().getConnection();
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement("UPDATE MEMBER SET PWD=? WHERE ID=?");
+			pstmt.setString(1, pwd);
+			pstmt.setString(2, id);
+			result = pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			}catch(SQLException e) {}
+		}
+		return result;
+	}
+	
+	public int deleteMember(String id) {
+		Connection conn = DBAction.getInstance().getConnection();
+		PreparedStatement pstmt = null;
+		int result =-1;
+		try {
+			pstmt = conn.prepareStatement("update member set useyn='n' WHERE ID=?");
+			pstmt.setString(1, "one");
+			result = pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			}catch(SQLException e) {}
+		}
+		return result;
+	}
 }

@@ -31,7 +31,6 @@
 	aside{
 		width:15%;
 		height:100%;
-		background-color:black;
 	}
 	article{
 		width:85%;

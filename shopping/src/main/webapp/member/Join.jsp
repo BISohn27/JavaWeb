@@ -5,7 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Member Form</title>
-<link rel="shortcut icon" href="#">
 <style>
 	body{
 		background-color:#F5F5F5
@@ -57,7 +56,7 @@
 	</header>
 	<section>
 		<h2>Join Us</h2>
-		<form name="formm">	
+		<form name="formm" action = "/shopping/NonageServlet" method = "post">	
 			<table>
 				<tr><td><input id="id" class="box" type="text" name="id" placeholder="아이디를 입력하세요."><input id="checkbutton" type="button" onclick="idCheck()" value="중복검사"></td></tr>
 				<tr><td><input class="box" type="password" name="pwd" placeholder="비밀번호를 입력하세요."></td></tr>
@@ -66,7 +65,7 @@
 				<tr><td><input class="box" type= "text" name="zipcode"><input type="button" onclick="searchPost()" value="우편번호검색"></td></tr>
 				<tr><td><input class="box" type= "text" name="address" placeholder="주소를 입력하세요."></td></tr>
 				<tr><td><input class="box" type= "text" name="phone" placeholder="전화번호를 입력하세요."></td></tr>
-				<tr><td><input type="button" value="가입하기" onclick='goSave()'/><input type="reset" value="다시입력"></td></tr>
+				<tr><td><input type="hidden" name="command" value='join'><input type="button" value="가입하기" onclick='goSave()'/><input type="reset" value="다시입력"></td></tr>
 			</table>
 		</form>
 	</section>

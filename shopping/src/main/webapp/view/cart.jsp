@@ -52,6 +52,7 @@
 	</nav>
 <section>
 	<h1>${member.name }님의 장바구니</h1>
+	<form action="deletecart.order" method="post">
 	<table>
 		<tr><th>상품명</th><th>수량</th><th>상품가격</th><th>전체 가격</th></tr>
 	<c:choose>
@@ -62,6 +63,11 @@
 					<td>${item.quantity }</td>
 					<td>${item.price2 }</td>
 					<td>${item.price2 * item.quantity }</td>
+					<td>
+						<input type="hidden" name="id" value="${member.id }">
+						<input type="hidden" name="cseq" value="${item.cseq }">
+						<input type="submit" value="삭제">
+					</td>
 				</tr>
 			</c:forEach>
 		</c:when>
@@ -70,6 +76,7 @@
 		</c:otherwise>
 	</c:choose>
 	</table>
+	</form>
 </section>
 <footer>
 </footer>

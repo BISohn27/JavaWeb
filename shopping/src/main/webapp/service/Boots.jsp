@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Boots Page</title>
 <style>
 	body{
 		background-color:#F5F5F5
@@ -31,7 +31,6 @@
 	aside{
 		width:15%;
 		height:100%;
-		background-color:black;
 	}
 	article{
 		width:85%;

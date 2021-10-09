@@ -57,7 +57,7 @@ public class OrderController extends MultiActionController{
 		request.setCharacterEncoding("utf-8");
 		String id = request.getParameter("id");
 		int pseq = Integer.parseInt(request.getParameter("pseq"));
-		int quantity = Integer.parseInt(request.getParameter("text"));
+		int quantity = Integer.parseInt(request.getParameter("quantity"));
 		ModelAndView mav = new ModelAndView();
 		
 		if(orderDao.setCart(id,pseq,quantity)!=-1) {
@@ -65,6 +65,19 @@ public class OrderController extends MultiActionController{
 			mav.setViewName("redirect:/order/cart.order");
 		}
 		
+		return mav;
+	}
+	
+	public ModelAndView deletecart(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		request.setCharacterEncoding("utf-8");
+		String id = request.getParameter("id");
+		int cseq = Integer.parseInt(request.getParameter("cseq"))	;
+		ModelAndView mav = new ModelAndView();
+		
+		if(orderDao.deleteCart(id,cseq) != -1) {
+			mav.addObject("id",id);
+			mav.setViewName("redirect:/order/cart.order");
+		}
 		return mav;
 	}
 	

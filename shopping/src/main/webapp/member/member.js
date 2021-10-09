@@ -68,8 +68,6 @@ function goSave(){
 	}else if(phone == "" || phone.trim().length == 0){
 		alert('전화번호를 입력해주세요.');
 	}else {
-		document.formm.action = "/shopping/NonageServlet?command=join";
-		document.formm.method = "post";
 		document.formm.submit();
 	}
 }

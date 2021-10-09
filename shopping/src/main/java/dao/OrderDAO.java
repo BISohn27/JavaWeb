@@ -125,23 +125,45 @@ public class OrderDAO {
 			pstmt2.setInt(2, pseq);
 			rs = pstmt2.executeQuery();
 			if(rs.next()) {
-				int totalQauntity = quantity + rs.getInt("qauntity");
-				pstmt1 = conn.prepareStatement("UPDATE CART SET QUANTITY=? WHERE ID=? AND PSEQ=?)");
-				pstmt1.setInt(1, totalQauntity);
+				pstmt1 = conn.prepareStatement("UPDATE CART SET QUANTITY=? WHERE ID=? AND PSEQ=?");
+				pstmt1.setInt(1, quantity + rs.getInt("quantity"));
 				pstmt1.setString(2, id);
 				pstmt1.setInt(3, pseq);
 				result = pstmt1.executeUpdate();
 			}else {
-				
+				pstmt1 = conn.prepareStatement("INSERT CART(ID,PSEQ,QUANTITY) VALUES(?,?,?)");
+				pstmt1.setString(1, id);
+				pstmt1.setInt(2, pseq);
+				pstmt1.setInt(3, quantity);
+				result=pstmt1.executeUpdate();
 			}
-			
-			
-			result=pstmt1.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {
 			try {
+				if(rs != null) rs.close();
+				if(pstmt2 != null) pstmt2.close();
 				if(pstmt1 != null) pstmt1.close();
+				if(conn != null) conn.close();
+			}catch(SQLException e) {}
+		}
+		return result;
+	}
+	
+	public int deleteCart(String id, int cseq) throws Exception{
+		int result = -1;
+		Connection conn = dataSource.getConnection();
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement("DELETE FROM CART WHERE ID=? AND CSEQ=?");
+			pstmt.setString(1, id);
+			pstmt.setInt(2, cseq);
+			result = pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(pstmt != null) pstmt.close();
 				if(conn != null) conn.close();
 			}catch(SQLException e) {}
 		}

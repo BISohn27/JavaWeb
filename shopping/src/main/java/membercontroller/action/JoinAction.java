@@ -14,8 +14,8 @@ import dto.MemberVO;
 public class JoinAction implements Action{
 	public void execute(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException{
-		request.setCharacterEncoding("utf-8");
-		String url = "member/login.jsp";
+		response.setContentType("text/html;charset=utf-8");
+		String url = "../member/Login.jsp";
 		HttpSession session= request.getSession();
 		MemberVO member = new MemberVO().setId(request.getParameter("id"))
 											.setPwd(request.getParameter("pwd"))
@@ -29,7 +29,7 @@ public class JoinAction implements Action{
 		try {
 			memberDAO.insertMember(member);
 			session.setAttribute("loginUser", member);
-			url = "/shopping/member/Login.jsp";
+			url = "member/Login.jsp";
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
