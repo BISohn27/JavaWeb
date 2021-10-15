@@ -62,7 +62,7 @@ public class OrderController extends MultiActionController{
 		
 		if(orderDao.setCart(id,pseq,quantity)!=-1) {
 			mav.addObject("id",id);
-			mav.setViewName("redirect:/order/cart.order");
+			mav.setViewName("redirect:/shopping/order/cart.order");
 		}
 		
 		return mav;

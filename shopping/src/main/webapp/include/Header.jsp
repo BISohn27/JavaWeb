@@ -86,16 +86,16 @@ a.headeranchor{
 		<li><a id ="acart" class ="headeranchor" href="../order/cart.order?id=${member.id }"><i class="fas fa-shopping-bag"></i><span id='cart' class="icontext">Cart</span></a></li>
 		<li><a id ="aorder" class ="headeranchor" href="../order/order.order?id=${member.id }"><i class="fas fa-receipt"></i ><span id='order' class="icontext">Order</span></a></li>
 		<li><a id ="amypage" class ="headeranchor" href="../member/modifyform.jsp"><i class="fas fa-pen-fancy"></i><span id='mypage' class="icontext">MyPage</span></a></li>
-		<li><a id ="aqna" class ="headeranchor" href="#"><i class="fas fa-user-friends"></i><span id='qna' class="icontext">QnA</span></a></li>
+		<li><a id ="aqna" class ="headeranchor" href="../customerservice/qna.customerservice"><i class="fas fa-user-friends"></i><span id='qna' class="icontext">QnA</span></a></li>
 	</ul>
 	</c:when>
 	<c:otherwise>
 	<ul class="headerul">
 		<li><a id ="alogin" class ="headeranchor" href="/shopping/member/Login.jsp"><i class="fas fa-user"></i><span id='login' class="icontext">Login</span></a></li>
-		<li><a id ="acart" class ="headeranchor" href="#"><i class="fas fa-shopping-bag"></i><span id='cart' class="icontext">Cart</span></a></li>
-		<li><a id ="aorder" class ="headeranchor" href="#"><i class="fas fa-receipt"></i ><span id='order' class="icontext">Order</span></a></li>
+		<li><a id ="acart" class ="headeranchor" href="/shopping/member/Login.jsp"><i class="fas fa-shopping-bag"></i><span id='cart' class="icontext">Cart</span></a></li>
+		<li><a id ="aorder" class ="headeranchor" href="/shopping/member/Login.jsp"><i class="fas fa-receipt"></i ><span id='order' class="icontext">Order</span></a></li>
 		<li><a id ="amypage" class ="headeranchor" href="/shopping/member/Login.jsp"><i class="fas fa-pen-fancy"></i><span id='mypage' class="icontext">MyPage</span></a></li>
-		<li><a id ="aqna" class ="headeranchor" href="#"><i class="fas fa-user-friends"></i><span id='qna' class="icontext">QnA</span></a></li>
+		<li><a id ="aqna" class ="headeranchor" href="../customerservice/qna.customerservice"><i class="fas fa-user-friends"></i><span id='qna' class="icontext">QnA</span></a></li>
 	</ul>
 	</c:otherwise>
 	</c:choose>

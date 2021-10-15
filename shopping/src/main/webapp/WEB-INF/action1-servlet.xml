@@ -20,39 +20,36 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 	<property name="maxWait" value="-1"/>
 </bean>
 
-<bean id="orderDao" class="dao.OrderDAO">
-	<property name="dataSource" ref="dataSource"/>
-</bean>
-
 <bean id = "viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 	<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
 	<property name="prefix" value="../view/"/>
 	<property name="suffix" value=".jsp"/>
 </bean>
 
-<bean id = "orderUrlMappings" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+<bean id="CustomerServiceDao" class="dao.CustomerServiceDAO">
+	<property name="dataSource" ref="dataSource"/>
+</bean>
+
+<bean id ="customerseviceUrlMappings" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 	<property name="mappings">
 		<props>
-			<prop key="/order/*.order">orderController</prop>
+			<prop key="/customerservice/*.customerservice">customerServiceController</prop>
 		</props>
 	</property>
 </bean>
 
-<bean id = "orderController" class="ordercontroller.OrderController">
-	<property name ="orderDao" ref="orderDao"/>
-	<property name = "methodNameResolver">
-		<ref local="orderMethodNameResolver"/>
+<bean id="customerServiceController" class="customerservicecontroller.CustomerServiceController">
+	<property name="customerServiceDao" ref="CustomerServiceDao"/>
+	<property name ="methodNameResolver">
+		<ref local ="customerserviceMethodNameResolver"/>
 	</property>
 </bean>
 
-<bean id ="orderMethodNameResolver" class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+<bean id="customerserviceMethodNameResolver" class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
 	<property name="mappings">
 		<props>
-			<prop key = "/order/cart.order">cart</prop>
-			<prop key = "/order/order.order">order</prop>
-			<prop key = "/order/orderdetail.order">orderdetail</prop>
-			<prop key = "/order/addcart.order">addcart</prop>
-			<prop key = "/order/deletecart.order">deletecart</prop>
+			<prop key = "/customerservice/qna.customerservice">qna</prop>
+			<prop key = "/customerservice/board.customerservice">board</prop>
 		</props>
 	</property>
 </bean>

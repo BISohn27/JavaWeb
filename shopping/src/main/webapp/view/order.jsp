@@ -28,17 +28,19 @@
 		justify-content: center;
 		align-items: center;
 	}
-	table {
-		border-style: hidden;
-		border-collapse: collapse;
-		border-radius: 10px;
-		box-shadow: 0 0 0 1px #000;
+	table{
+		border: 1px solid lightgray;
 	}
 	th,td{
-		border:1px solid gray;
+		width: 10vw;
 		text-align: center;
+		border: none;
 	}
 	th{
+		background-color: gray;
+		border:none;
+	}
+	td{
 		background-color: lightgray;
 	}
 	</style>
