@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 <style>
 	body{
-		background-color:#F5F5F5
+		background-color:#F5F5F5;
 	}
 	header{
 		height: 10vh;
@@ -28,8 +28,26 @@
 		flex-direction: column;
 		align-items: center;
 	}
+	table{
+		width: 60%;
+	}
+	th,td{
+		width: 8%;
+		height: 3vh;
+		text-align: center;
+	}
+	th{
+		background-color: darkgray;
+	}
+	td{
+		background-color: white;
+	}
+	.title{
+		width: 30%;
+	}
 	#boardarticle{
-		height: 60vh;
+		height: 40vh;
+		width:100%;
 		display: flex;
 		justify-content: center;
 		align-items: flex-start;
@@ -39,6 +57,14 @@
 		width: 30%;
 		display: flex;
 		justify-content: space-evenly;
+		align-items: center;
+	}
+	#currentpage{
+		font-weight: bolder;
+	}
+	#buttonbox{
+		background-color:#F5F5F5;
+		text-align:right;
 	}
 	a.boardselection{
 		text-decoration:none;
@@ -47,7 +73,13 @@
 	a.boardselection:hover{
 		color:lightgray;
 	}
-	
+	.pagination, .pages{
+		text-decoration:none;
+		color: black;
+	}
+	.pagination:hover, .pages:hover{
+		text-decoration: underline;
+	}
 </style>
 </head>
 <body>
@@ -61,13 +93,23 @@
 	<article id="boardarticle">
 		<table>
 			<tr>
-				<th>글번호</th><th>제목</th><th>글쓴이</th><th>작성일자</th>
+				<th>글번호</th><th  class="title">제목</th><th>글쓴이</th><th>작성일자</th>
 			</tr>
 			<c:forEach var="board" items="${ qnalist}">
 				<tr>
-					<td>${board.qseq }</td><td><a class="boardselection" href="../customerservice/board.customerservice?qseq=${board.qseq }">${board.subject }</a></td><td>${board.id }</td><td>${board.indate }</td>
+					<td>${board.qseq }</td><td class="title"><a class="boardselection" href="../customerservice/board.customerservice?qseq=${board.qseq }&page=${page}&totalpages=${totalpages}">${board.subject }</a></td><td>${board.id }</td><td>${board.indate }</td>
 				</tr>
-			</c:forEach>	
+			</c:forEach>
+			<tr><td id="buttonbox" colspan="4">
+			<c:choose>
+				<c:when test="${member eq null }">
+					<input type="button" value="글쓰기" onclick="location.href='../member/Login.jsp'">
+				</c:when>
+				<c:otherwise>
+					<input type="button" value='글쓰기' onclick="location.href='../customerservice/writer.customerservice'">
+				</c:otherwise>
+			</c:choose>
+			</td>
 		</table>
 	</article>
 	<article id="pagearticle">
@@ -76,7 +118,7 @@
 				<span>이전 </span>
 			</c:when>
 			<c:otherwise>
-				<a href="../customerservice/qna.customerservice?page=${startpage-1 }&totalpages=${totalpages}">이전 </a>
+				<a class="pagination" href="../customerservice/qna.customerservice?page=${startpage-1 }&totalpages=${totalpages}">이전 </a>
 			</c:otherwise>
 		</c:choose>
 		<c:forEach var="i" begin="${startpage }" end="${endpage }">
@@ -94,7 +136,7 @@
 				<span>다음</span>
 			</c:when>
 			<c:otherwise>
-				<a href="../customerservice/qna.customerservice?page=${endpage + 1 }&totalpages=${totalpages}">다음 </a>
+				<a class="pagination" href="../customerservice/qna.customerservice?page=${endpage + 1 }&totalpages=${totalpages}">다음 </a>
 			</c:otherwise>
 		</c:choose>
 	</article>

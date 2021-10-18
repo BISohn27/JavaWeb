@@ -20,6 +20,22 @@ public class CustomerServiceController extends MultiActionController{
 		this.customerServiceDao = customerServiceDao;
 	}
 	
+	public ModelAndView writer(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		return new ModelAndView("redirect:/view/writer.jsp");
+	}
+	
+	public ModelAndView write(HttpServletRequest request,HttpServletResponse response)throws Exception{
+		request.setCharacterEncoding("utf-8");
+		String subject = request.getParameter("title");
+		String content = request.getParameter("content");
+		String id = request.getParameter("id");
+		if(subject != null && content !=null) {
+			customerServiceDao.insertQna(subject, content,id);
+		}
+		
+		return new ModelAndView("redirect:../customerservice/qna.customerservice");
+	}
+	
 	public ModelAndView viewMemberInfo(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		ModelAndView mav= new ModelAndView();
 		String viewName = getViewName(request);
@@ -34,24 +50,28 @@ public class CustomerServiceController extends MultiActionController{
 		int countArticles = 10;
 		int totalPages = 0;
 		int totalArticles=0;
+		int page = 1;
+		List<BoardVO> list = null;
 		
-		if((temp = request.getParameter("totalpages")).isEmpty()) {
-			totalArticles = customerServiceDao.getTotalArticles();
+		if(!((temp = request.getParameter("page"))==null)) {
+			page = Integer.parseInt(temp);
+			temp = null;
+		}
+		
+		if((temp = request.getParameter("totalpages"))==null) {
+			Object[] objList = customerServiceDao.getBoardListAndTotal(page, countArticles);
+			totalArticles = (int)objList[0];
 			totalPages = totalArticles/countArticles;
 			if((totalArticles % countArticles) != 0) {
 				totalPages++;
 			}
+			if(objList[1] instanceof List) {
+				list = (List<BoardVO>)objList[1];
+			}
 		} else {
 			totalPages = Integer.parseInt(temp);
-			temp = null;
+			list = customerServiceDao.getBoardList(page,countArticles);
 		}
-		
-		int page = 1;
-		if(!((temp = request.getParameter("page")).isEmpty())) {
-			page = Integer.parseInt(temp);
-		}
-		
-		List<BoardVO> list = customerServiceDao.getBoardList(page,countArticles);
 		
 		int startPage = ((page-1)/countPages) * countPages + 1;
 		int endPage = startPage -1 + countPages;
@@ -78,14 +98,29 @@ public class CustomerServiceController extends MultiActionController{
 		ModelAndView mav = new ModelAndView();
 		int qseq = Integer.parseInt(request.getParameter("qseq"));
 		BoardVO board = customerServiceDao.getBoard(qseq);
-		
 		if(board != null) {
 			mav.addObject("board",board);
 			String viewName = getViewName(request);
 			mav.setViewName(viewName);
+			mav.addObject("page", request.getParameter("page"));
+			mav.addObject("totalpages",request.getParameter("totalpages"));
 		} else {
 			mav.setViewName("redirect:/shopping/customerservice/qna.customerservice");
 		}
+		return mav;
+	}
+	
+	public ModelAndView modify(HttpServletRequest request,HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		String subject = request.getParameter("subject");
+		String content = request.getParameter("content");
+		int qseq = Integer.parseInt(request.getParameter("qseq"));
+		BoardVO board = customerServiceDao.modifyQna(subject, content, qseq);
+		
+		mav.addObject("board", board);
+		mav.addObject("page", request.getParameter("page"));
+		mav.addObject("totalpages", request.getParameter("totalpages"));
+		mav.setViewName("board");
 		return mav;
 	}
 	
