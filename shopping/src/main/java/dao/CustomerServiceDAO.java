@@ -103,10 +103,154 @@ public class CustomerServiceDAO {
 				objList[0] = rsTotal.getInt(1);
 			}
 			
-			pstmt = conn.prepareStatement("SELECT * FROM QNA WHERE QSEQ=?");
 			pstmt = conn.prepareStatement("SELECT * FROM QNA ORDER BY QSEQ DESC LIMIT ?, ?");
 			pstmt.setInt(1, offset);
 			pstmt.setInt(2, countArticles);
+			rsList = pstmt.executeQuery();
+			while(rsList.next()) {
+				list.add(new BoardVO().setQseq(rsList.getInt(1))
+													.setSubject(rsList.getString(2))
+													.setContent(rsList.getString(3))
+													.setReply(rsList.getString(4))
+													.setId(rsList.getString(5))
+													.setReq(rsList.getString(6))
+													.setIndate(rsList.getDate(7)));
+			}
+			objList[1] = list;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rsList != null) rsList.close();
+				if(rsTotal != null) rsTotal.close();
+				if(stmt != null) stmt.close();
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			}catch(SQLException e) {}
+		}
+		return objList;
+	}
+	
+	public Object[] getSubjectBoardList(int currentPage,int countArticles, String subject) {
+		Connection conn = null;
+		Statement stmt = null;
+		PreparedStatement pstmt = null;
+		ResultSet rsTotal = null;
+		ResultSet rsList = null;
+		Object[] objList = new Object[2];
+		List<BoardVO> list = new ArrayList<>();
+		int offset = (currentPage-1)*countArticles;
+		
+		
+		try {
+			conn = dataSource.getConnection();
+			stmt = conn.createStatement();
+			rsTotal = stmt.executeQuery("SELECT COUNT(QSEQ) FROM QNA");
+			if(rsTotal.next()) {
+				objList[0] = rsTotal.getInt(1);
+			}
+			
+			pstmt = conn.prepareStatement("SELECT * FROM QNA WHERE SUBJECT=? ORDER BY QSEQ DESC LIMIT ?, ?");
+			pstmt.setString(1, subject);
+			pstmt.setInt(2, offset);
+			pstmt.setInt(3, countArticles);
+			rsList = pstmt.executeQuery();
+			while(rsList.next()) {
+				list.add(new BoardVO().setQseq(rsList.getInt(1))
+													.setSubject(rsList.getString(2))
+													.setContent(rsList.getString(3))
+													.setReply(rsList.getString(4))
+													.setId(rsList.getString(5))
+													.setReq(rsList.getString(6))
+													.setIndate(rsList.getDate(7)));
+			}
+			objList[1] = list;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rsList != null) rsList.close();
+				if(rsTotal != null) rsTotal.close();
+				if(stmt != null) stmt.close();
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			}catch(SQLException e) {}
+		}
+		return objList;
+	}
+	
+	public Object[] getContentSubjectBoardList(int currentPage,int countArticles, String str) {
+		Connection conn = null;
+		Statement stmt = null;
+		PreparedStatement pstmt = null;
+		ResultSet rsTotal = null;
+		ResultSet rsList = null;
+		Object[] objList = new Object[2];
+		List<BoardVO> list = new ArrayList<>();
+		int offset = (currentPage-1)*countArticles;
+		
+		
+		try {
+			conn = dataSource.getConnection();
+			stmt = conn.createStatement();
+			rsTotal = stmt.executeQuery("SELECT COUNT(QSEQ) FROM QNA");
+			if(rsTotal.next()) {
+				objList[0] = rsTotal.getInt(1);
+			}
+			
+			pstmt = conn.prepareStatement("SELECT * FROM QNA WHERE SUBJECT=? OR CONTENT=? ORDER BY QSEQ DESC LIMIT ?, ?");
+			pstmt.setString(1, str);
+			pstmt.setString(2, str);
+			pstmt.setInt(3, offset);
+			pstmt.setInt(4, countArticles);
+			rsList = pstmt.executeQuery();
+			while(rsList.next()) {
+				list.add(new BoardVO().setQseq(rsList.getInt(1))
+													.setSubject(rsList.getString(2))
+													.setContent(rsList.getString(3))
+													.setReply(rsList.getString(4))
+													.setId(rsList.getString(5))
+													.setReq(rsList.getString(6))
+													.setIndate(rsList.getDate(7)));
+			}
+			objList[1] = list;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rsList != null) rsList.close();
+				if(rsTotal != null) rsTotal.close();
+				if(stmt != null) stmt.close();
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			}catch(SQLException e) {}
+		}
+		return objList;
+	}
+	
+	public Object[] getIdBoardList(int currentPage,int countArticles, String id) {
+		Connection conn = null;
+		Statement stmt = null;
+		PreparedStatement pstmt = null;
+		ResultSet rsTotal = null;
+		ResultSet rsList = null;
+		Object[] objList = new Object[2];
+		List<BoardVO> list = new ArrayList<>();
+		int offset = (currentPage-1)*countArticles;
+		
+		
+		try {
+			conn = dataSource.getConnection();
+			stmt = conn.createStatement();
+			rsTotal = stmt.executeQuery("SELECT COUNT(QSEQ) FROM QNA");
+			if(rsTotal.next()) {
+				objList[0] = rsTotal.getInt(1);
+			}
+			
+			pstmt = conn.prepareStatement("SELECT * FROM QNA WHERE ID=? ORDER BY QSEQ DESC LIMIT ?, ?");
+			pstmt.setString(1, id);
+			pstmt.setInt(2, offset);
+			pstmt.setInt(3, countArticles);
 			rsList = pstmt.executeQuery();
 			while(rsList.next()) {
 				list.add(new BoardVO().setQseq(rsList.getInt(1))

@@ -53,6 +53,7 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 			<prop key = "/customerservice/writer.customerservice">writer</prop>
 			<prop key = "/customerservice/write.customerservice">write</prop>
 			<prop key = "/customerservice/modifywriting.customerservice">modify</prop>
+			<prop key = "/customerservice/search.customerservice">search</prop>
 		</props>
 	</property>
 </bean>

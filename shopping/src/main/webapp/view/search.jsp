@@ -162,6 +162,8 @@ form{
 					<th>글쓴이</th>
 					<th>작성일자</th>
 				</tr>
+				<c:choose>
+				<c:when test= "${qnalist ne null}">
 				<c:forEach var="board" items="${ qnalist}">
 					<tr>
 						<td>${board.qseq }</td>
@@ -182,6 +184,7 @@ form{
 									onclick="location.href='../customerservice/writer.customerservice'">
 							</c:otherwise>
 						</c:choose></td>
+				</tr>
 			</table>
 		</article>
 		<article id="pagearticle">
@@ -206,7 +209,7 @@ form{
 				</c:when>
 				<c:otherwise>
 					<a class="pagination"
-						href="../customerservice/qna.customerservice?page=${startpage-1 }&totalpages=${totalpages}">이전
+						href="../customerservice/search.customerservice?page=${startpage-1 }&totalpages=${totalpages}">이전
 					</a>
 				</c:otherwise>
 			</c:choose>
@@ -217,7 +220,7 @@ form{
 					</c:when>
 					<c:otherwise>
 						<a class="pages"
-							href="../customerservice/qna.customerservice?page=${i }&totalpages=${totalpages}">${i }
+							href="../customerservice/search.customerservice?page=${i }&totalpages=${totalpages}">${i }
 						</a>
 					</c:otherwise>
 				</c:choose>
@@ -228,12 +231,41 @@ form{
 				</c:when>
 				<c:otherwise>
 					<a class="pagination"
-						href="../customerservice/qna.customerservice?page=${endpage + 1 }&totalpages=${totalpages}">다음
+						href="../customerservice/search.customerservice?page=${endpage + 1 }&totalpages=${totalpages}">다음
 					</a>
 				</c:otherwise>
 			</c:choose>
 			</div>
 		</article>
+		</c:when>
+		<c:otherwise>
+			<tr>
+				<td colspan="4" rowspan="4">검색 결과가 없습니다.</td>
+		</table>
+		</article>
+		<article id="pagearticle">
+			<div id="searchbox">
+				<form id="forms" action="../customerservice/search.customerservice"
+					method="post">
+					<select name="searchoption" id="selectbox">
+						<option value="1">제목</option>
+						<option value="2">제목+내용</option>
+						<option value="3">작성자</option>
+					</select>
+					<input type="text" id="textbox" name="searching"
+						placeholder="검색어를 입력해주세요."><button id="btn" type="button" onclick="sendSearch()">
+						<i class="fas fa-search"></i>
+					</button>
+				</form>
+			</div>
+			<div id="pagingbox">
+				<span>이전 </span>
+				<span id="currentpage">1</span>
+				<span>다음</span>
+			</div>
+		</article>
+		</c:otherwise>
+		</c:choose>
 	</section>
 </body>
 </html>

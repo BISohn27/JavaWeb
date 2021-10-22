@@ -124,6 +124,71 @@ public class CustomerServiceController extends MultiActionController{
 		return mav;
 	}
 	
+	public ModelAndView search(HttpServletRequest request,HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		String searchOption = request.getParameter("searchoption");
+		String search = request.getParameter("searching");
+		String temp= null;
+		int countPages= 10;
+		int countArticles = 10;
+		int totalPages = 0;
+		int totalArticles=0;
+		int page = 1;
+		List<BoardVO> list = null;
+		
+		if(!((temp = request.getParameter("page"))==null)) {
+			page = Integer.parseInt(temp);
+			temp = null;
+		}
+		
+		if((temp = request.getParameter("totalpages"))==null) {
+			Object[] objList = null;
+			
+			if(searchOption.equals("1")) {
+				objList = customerServiceDao.getSubjectBoardList(page, countArticles, search);
+			}else if(searchOption.equals("2")) {
+				objList = customerServiceDao.getContentSubjectBoardList(page, countArticles, search);
+			}else if(searchOption.equals("3")){
+				objList = customerServiceDao.getIdBoardList(page, countArticles, search);
+			}else {
+				mav.setViewName("redirect:../customerservice/qna.customerservice");
+				return mav;
+			}
+			
+			totalArticles = (int)objList[0];
+			totalPages = totalArticles/countArticles;
+			if((totalArticles % countArticles) != 0) {
+				totalPages++;
+			}
+			if(objList[1] instanceof List) {
+				list = (List<BoardVO>)objList[1];
+			}
+		} else {
+			totalPages = Integer.parseInt(temp);
+			list = customerServiceDao.getBoardList(page,countArticles);
+		}
+		
+		int startPage = ((page-1)/countPages) * countPages + 1;
+		int endPage = startPage -1 + countPages;
+		
+		if(totalPages < endPage) {
+			endPage = totalPages;
+		}
+		
+		if(list != null) {
+			mav.addObject("qnalist", list);
+			mav.addObject("startpage",startPage);
+			mav.addObject("endpage",endPage);
+			mav.addObject("page", page);
+			mav.addObject("totalpages",totalPages);
+			String viewName = getViewName(request);
+			mav.setViewName(viewName);
+		}else {
+			mav.setViewName("redirect:shopping/service/index.product");
+		}
+		return mav;
+	}
+	
 	public String getViewName(HttpServletRequest request) throws Exception{
 		String contextPath = request.getContextPath();
 		String uri = (String)request.getAttribute("javax.servlet.include.reqeust_uri");
