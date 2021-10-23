@@ -14,7 +14,7 @@
 		if(searching == '' || searching.trim().length ==0){
 			alert('검색어를 입력해주세요.');
 		}else{
-			$('forms').submit();
+			$('#forms').submit();
 		}
 	}
 </script>
@@ -144,6 +144,10 @@ form{
 	border: 1px solid lightgray;
 	border-radius: 5px;
 }
+
+#btn:hover{
+	background-color: lightblue;
+}
 </style>
 </head>
 <body>
@@ -209,7 +213,7 @@ form{
 				</c:when>
 				<c:otherwise>
 					<a class="pagination"
-						href="../customerservice/search.customerservice?page=${startpage-1 }&totalpages=${totalpages}">이전
+						href="../customerservice/search.customerservice?page=${startpage-1 }&totalpages=${totalpages}&searching=${searching}&searchoption=${searchoption}">이전
 					</a>
 				</c:otherwise>
 			</c:choose>
@@ -220,18 +224,18 @@ form{
 					</c:when>
 					<c:otherwise>
 						<a class="pages"
-							href="../customerservice/search.customerservice?page=${i }&totalpages=${totalpages}">${i }
+							href="../customerservice/search.customerservice?page=${i }&totalpages=${totalpages}&searching=${searching}&searchoption=${searchoption}">${i }
 						</a>
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
 			<c:choose>
-				<c:when test="${(endpage % 10) ne 0 }">
+				<c:when test="${(endpage % 10) ne 0 || totalpages eq endpage }">
 					<span>다음</span>
 				</c:when>
 				<c:otherwise>
 					<a class="pagination"
-						href="../customerservice/search.customerservice?page=${endpage + 1 }&totalpages=${totalpages}">다음
+						href="../customerservice/search.customerservice?page=${endpage + 1 }&totalpages=${totalpages}&searching=${searching}&searchoption=${searchoption}">다음
 					</a>
 				</c:otherwise>
 			</c:choose>

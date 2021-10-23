@@ -145,7 +145,7 @@ public class CustomerServiceDAO {
 		try {
 			conn = dataSource.getConnection();
 			stmt = conn.createStatement();
-			rsTotal = stmt.executeQuery("SELECT COUNT(QSEQ) FROM QNA");
+			rsTotal = stmt.executeQuery("SELECT COUNT(QSEQ) FROM QNA WHERE SUBJECT='"+subject+"'");
 			if(rsTotal.next()) {
 				objList[0] = rsTotal.getInt(1);
 			}
@@ -189,18 +189,17 @@ public class CustomerServiceDAO {
 		List<BoardVO> list = new ArrayList<>();
 		int offset = (currentPage-1)*countArticles;
 		
-		
 		try {
 			conn = dataSource.getConnection();
 			stmt = conn.createStatement();
-			rsTotal = stmt.executeQuery("SELECT COUNT(QSEQ) FROM QNA");
+			rsTotal = stmt.executeQuery("SELECT COUNT(QSEQ) FROM QNA WHERE SUBJECT='"+str+"' OR CONTENT='"+str+"'");
 			if(rsTotal.next()) {
 				objList[0] = rsTotal.getInt(1);
 			}
 			
-			pstmt = conn.prepareStatement("SELECT * FROM QNA WHERE SUBJECT=? OR CONTENT=? ORDER BY QSEQ DESC LIMIT ?, ?");
+			pstmt = conn.prepareStatement("SELECT * FROM QNA WHERE SUBJECT=? OR CONTENT LIKE ? ORDER BY QSEQ DESC LIMIT ?, ?");
 			pstmt.setString(1, str);
-			pstmt.setString(2, str);
+			pstmt.setString(2,"%"+str+"%");
 			pstmt.setInt(3, offset);
 			pstmt.setInt(4, countArticles);
 			rsList = pstmt.executeQuery();
@@ -242,7 +241,7 @@ public class CustomerServiceDAO {
 		try {
 			conn = dataSource.getConnection();
 			stmt = conn.createStatement();
-			rsTotal = stmt.executeQuery("SELECT COUNT(QSEQ) FROM QNA");
+			rsTotal = stmt.executeQuery("SELECT COUNT(QSEQ) FROM QNA WHERE ID='"+id+"'");
 			if(rsTotal.next()) {
 				objList[0] = rsTotal.getInt(1);
 			}

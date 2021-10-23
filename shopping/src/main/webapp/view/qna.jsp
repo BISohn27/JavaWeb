@@ -14,7 +14,7 @@
 		if(searching == '' || searching.trim().length ==0){
 			alert('검색어를 입력해주세요.');
 		}else{
-			$('forms').submit();
+			$('#forms').submit();
 		}
 	}
 </script>
@@ -143,6 +143,10 @@ form{
 	background-color: white;
 	border: 1px solid lightgray;
 	border-radius: 5px;
+}
+
+#btn:hover{
+	background-color:lightblue;
 }
 </style>
 </head>

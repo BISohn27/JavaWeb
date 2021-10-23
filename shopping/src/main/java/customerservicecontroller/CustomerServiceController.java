@@ -141,31 +141,34 @@ public class CustomerServiceController extends MultiActionController{
 			temp = null;
 		}
 		
-		if((temp = request.getParameter("totalpages"))==null) {
-			Object[] objList = null;
-			
-			if(searchOption.equals("1")) {
-				objList = customerServiceDao.getSubjectBoardList(page, countArticles, search);
-			}else if(searchOption.equals("2")) {
-				objList = customerServiceDao.getContentSubjectBoardList(page, countArticles, search);
-			}else if(searchOption.equals("3")){
-				objList = customerServiceDao.getIdBoardList(page, countArticles, search);
-			}else {
-				mav.setViewName("redirect:../customerservice/qna.customerservice");
-				return mav;
+		Object[] objList = null;
+		
+		if(searchOption.equals("1")) {
+			objList = customerServiceDao.getSubjectBoardList(page, countArticles, search);
+		}else if(searchOption.equals("2")) {
+			objList = customerServiceDao.getContentSubjectBoardList(page, countArticles, search);
+		}else if(searchOption.equals("3")){
+			objList = customerServiceDao.getIdBoardList(page, countArticles, search);
+		}else {
+			mav.setViewName("redirect:../customerservice/qna.customerservice");
+			return mav;
+		}
+		
+		if(objList[1] instanceof List) {
+			list = (List<BoardVO>)objList[1];
+			if(list.isEmpty()) {
+				list = null;
 			}
-			
+		}
+		
+		if((temp = request.getParameter("totalpages"))==null) {
 			totalArticles = (int)objList[0];
 			totalPages = totalArticles/countArticles;
 			if((totalArticles % countArticles) != 0) {
 				totalPages++;
 			}
-			if(objList[1] instanceof List) {
-				list = (List<BoardVO>)objList[1];
-			}
 		} else {
 			totalPages = Integer.parseInt(temp);
-			list = customerServiceDao.getBoardList(page,countArticles);
 		}
 		
 		int startPage = ((page-1)/countPages) * countPages + 1;
@@ -181,10 +184,14 @@ public class CustomerServiceController extends MultiActionController{
 			mav.addObject("endpage",endPage);
 			mav.addObject("page", page);
 			mav.addObject("totalpages",totalPages);
+			mav.addObject("searching", search);
+			mav.addObject("searchoption",searchOption);
 			String viewName = getViewName(request);
 			mav.setViewName(viewName);
 		}else {
-			mav.setViewName("redirect:shopping/service/index.product");
+			mav.addObject("qnalist", list);
+			String viewName = getViewName(request);
+			mav.setViewName(viewName);
 		}
 		return mav;
 	}
