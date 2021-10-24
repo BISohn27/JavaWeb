@@ -19,6 +19,14 @@
 			$('#formq').submit();
 		}
 	}
+	
+	function writeReply(){
+		$('#replywriter').submit();
+	}
+	
+	function modifyReply(){
+		$('#modifyreply').submit();
+	}
 </script>
 <style>
 body{
@@ -109,7 +117,7 @@ body{
 	</article>
 	<article>
 	<table>	
-			<tr><td id="req">${board.req }</td></tr>
+			<tr><td id="req">${board.reply }</td></tr>
 			<tr><td id="buttonbox">
 			<form id="formq" action="../view/modifyqna.jsp" method="post">
 				<input type="hidden" name="page" value="${page }">
@@ -118,7 +126,35 @@ body{
 				<input type="hidden" name="subject" value="${board.subject }">
 				<input type="hidden" name="qseq" value="${board.qseq }">
 				<input type="hidden" name="id" value="${member.id }">
-				<input type="button" value="수정" onclick="modifyQna()"><input type="button" value="목록" onclick="location.href='../customerservice/qna.customerservice?&page=${page}&totalpages=${totalpages}'">
+				<c:choose>
+					<c:when test="${searchoption ne null }">
+						<input type="button" value="수정" onclick="modifyQna()"><input type="button" value="목록" onclick="location.href='../customerservice/search.customerservice?&page=${page}&totalpages=${totalpages}&searchoption=${searchoption }&searching=${searching }'">
+					</c:when>
+					<c:when test="${member.id eq 'admin' }">
+						<form>
+						</form>
+						<form id ="replywriter" action="../view/replywriter.jsp" method="post">
+							<input type="hidden" value="${board.qseq }">
+							<input type="hidden" name="page" value="${page }">
+							<input type="hidden" name="totalpages" value="${totalpages }">
+							<input type="hidden" name="id" value="${member.id }">
+							<input type="hidden" value="${board.qseq }">
+							<input type="button" value="답변" onclick="writeReply()">
+						</form>
+						<form id="modifyreply" action="../view/modifyreply.jsp" method="post">
+							<input type="hidden" value="${board.qseq }">
+							<input type="hidden" name="page" value="${page }">
+							<input type="hidden" name="totalpages" value="${totalpages }">
+							<input type="hidden" name="id" value="${member.id }">
+							<input type="hidden" name="reply" value="${board.reply }">
+							<input type="button" value="답변수정" onclick="modifyReply()">
+						</form>
+						<input type="button" value="목록" onclick="location.href='../customerservice/search.customerservice?&page=${page}&totalpages=${totalpages}&searchoption=${searchoption }&searching=${searching }'">
+					</c:when>
+					<c:otherwise>
+						<input type="button" value="수정" onclick="modifyQna()"><input type="button" value="목록" onclick="location.href='../customerservice/qna.customerservice?&page=${page}&totalpages=${totalpages}'">
+					</c:otherwise>
+				</c:choose>
 			</form>
 			</td></tr>
 		</table>

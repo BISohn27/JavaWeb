@@ -21,7 +21,7 @@ public class MemberDAO {
 		Connection conn = DBAction.getInstance().getConnection();
 		PreparedStatement pstmt = null;
 		try {
-			pstmt = conn.prepareStatement("INSERT INTO MEMBERs (ID,PWD,NAME,EMAIL,ZIP_NUM,ADDRESS,PHONE) VALUES(?,?,?,?,?,?,?)");
+			pstmt = conn.prepareStatement("INSERT INTO MEMBER (ID,PWD,NAME,EMAIL,ZIP_NUM,ADDRESS,PHONE) VALUES(?,?,?,?,?,?,?)");
 			pstmt.setString(1, member.getId());
 			pstmt.setString(2, member.getPwd());
 			pstmt.setString(3, member.getName());

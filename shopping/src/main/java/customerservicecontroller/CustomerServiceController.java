@@ -95,6 +95,7 @@ public class CustomerServiceController extends MultiActionController{
 	}
 	
 	public ModelAndView board(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		request.setCharacterEncoding("utf-8");
 		ModelAndView mav = new ModelAndView();
 		int qseq = Integer.parseInt(request.getParameter("qseq"));
 		BoardVO board = customerServiceDao.getBoard(qseq);
@@ -104,6 +105,8 @@ public class CustomerServiceController extends MultiActionController{
 			mav.setViewName(viewName);
 			mav.addObject("page", request.getParameter("page"));
 			mav.addObject("totalpages",request.getParameter("totalpages"));
+			mav.addObject("searchoption", request.getParameter("searchoption"));
+			mav.addObject("searching", request.getParameter("searching"));
 		} else {
 			mav.setViewName("redirect:/shopping/customerservice/qna.customerservice");
 		}
@@ -111,6 +114,7 @@ public class CustomerServiceController extends MultiActionController{
 	}
 	
 	public ModelAndView modify(HttpServletRequest request,HttpServletResponse response) throws Exception {
+		request.setCharacterEncoding("utf-8");
 		ModelAndView mav = new ModelAndView();
 		String subject = request.getParameter("subject");
 		String content = request.getParameter("content");
@@ -125,6 +129,7 @@ public class CustomerServiceController extends MultiActionController{
 	}
 	
 	public ModelAndView search(HttpServletRequest request,HttpServletResponse response) throws Exception {
+		request.setCharacterEncoding("utf-8");
 		ModelAndView mav = new ModelAndView();
 		String searchOption = request.getParameter("searchoption");
 		String search = request.getParameter("searching");
@@ -193,6 +198,20 @@ public class CustomerServiceController extends MultiActionController{
 			String viewName = getViewName(request);
 			mav.setViewName(viewName);
 		}
+		return mav;
+	}
+	
+	public ModelAndView reply(HttpServletRequest request) throws Exception{
+		request.setCharacterEncoding("utf-8");
+		ModelAndView mav = new ModelAndView();
+		String reply = request.getParameter("content");
+		int qseq = Integer.parseInt(request.getParameter("qseq"));
+		BoardVO board = customerServiceDao.reply(reply, qseq);
+		
+		mav.addObject("board", board);
+		mav.addObject("page", request.getParameter("page"));
+		mav.addObject("totalpages", request.getParameter("totalpages"));
+		mav.setViewName("board");
 		return mav;
 	}
 	

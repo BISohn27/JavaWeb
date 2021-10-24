@@ -172,7 +172,7 @@ form{
 					<tr>
 						<td>${board.qseq }</td>
 						<td class="title"><a class="boardselection"
-							href="../customerservice/board.customerservice?qseq=${board.qseq }&page=${page}&totalpages=${totalpages}">${board.subject }</a></td>
+							href="../customerservice/board.customerservice?qseq=${board.qseq }&page=${page}&totalpages=${totalpages}&searching=${searching}&searchoption=${searchoption}">${board.subject }</a></td>
 						<td>${board.id }</td>
 						<td>${board.indate }</td>
 					</tr>

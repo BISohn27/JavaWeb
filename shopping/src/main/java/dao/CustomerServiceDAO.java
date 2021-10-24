@@ -145,13 +145,13 @@ public class CustomerServiceDAO {
 		try {
 			conn = dataSource.getConnection();
 			stmt = conn.createStatement();
-			rsTotal = stmt.executeQuery("SELECT COUNT(QSEQ) FROM QNA WHERE SUBJECT='"+subject+"'");
+			rsTotal = stmt.executeQuery("SELECT COUNT(QSEQ) FROM QNA WHERE SUBJECT Like '%"+subject+"%'");
 			if(rsTotal.next()) {
 				objList[0] = rsTotal.getInt(1);
 			}
 			
-			pstmt = conn.prepareStatement("SELECT * FROM QNA WHERE SUBJECT=? ORDER BY QSEQ DESC LIMIT ?, ?");
-			pstmt.setString(1, subject);
+			pstmt = conn.prepareStatement("SELECT * FROM QNA WHERE SUBJECT Like ? ORDER BY QSEQ DESC LIMIT ?, ?");
+			pstmt.setString(1, "%"+subject+"%");
 			pstmt.setInt(2, offset);
 			pstmt.setInt(3, countArticles);
 			rsList = pstmt.executeQuery();
@@ -192,13 +192,13 @@ public class CustomerServiceDAO {
 		try {
 			conn = dataSource.getConnection();
 			stmt = conn.createStatement();
-			rsTotal = stmt.executeQuery("SELECT COUNT(QSEQ) FROM QNA WHERE SUBJECT='"+str+"' OR CONTENT='"+str+"'");
+			rsTotal = stmt.executeQuery("SELECT COUNT(QSEQ) FROM QNA WHERE SUBJECT Like '%" +str + "%' OR CONTENT LIKE '%" +str + "%'");
 			if(rsTotal.next()) {
 				objList[0] = rsTotal.getInt(1);
 			}
 			
-			pstmt = conn.prepareStatement("SELECT * FROM QNA WHERE SUBJECT=? OR CONTENT LIKE ? ORDER BY QSEQ DESC LIMIT ?, ?");
-			pstmt.setString(1, str);
+			pstmt = conn.prepareStatement("SELECT * FROM QNA WHERE SUBJECT LIKE ? OR CONTENT LIKE ? ORDER BY QSEQ DESC LIMIT ?, ?");
+			pstmt.setString(1,"%"+str+"%");
 			pstmt.setString(2,"%"+str+"%");
 			pstmt.setInt(3, offset);
 			pstmt.setInt(4, countArticles);
@@ -241,13 +241,13 @@ public class CustomerServiceDAO {
 		try {
 			conn = dataSource.getConnection();
 			stmt = conn.createStatement();
-			rsTotal = stmt.executeQuery("SELECT COUNT(QSEQ) FROM QNA WHERE ID='"+id+"'");
+			rsTotal = stmt.executeQuery("SELECT COUNT(QSEQ) FROM QNA WHERE ID LIKE '%"+id+"%'");
 			if(rsTotal.next()) {
 				objList[0] = rsTotal.getInt(1);
 			}
 			
-			pstmt = conn.prepareStatement("SELECT * FROM QNA WHERE ID=? ORDER BY QSEQ DESC LIMIT ?, ?");
-			pstmt.setString(1, id);
+			pstmt = conn.prepareStatement("SELECT * FROM QNA WHERE ID LIKE ? ORDER BY QSEQ DESC LIMIT ?, ?");
+			pstmt.setString(1, "%"+id+"%");
 			pstmt.setInt(2, offset);
 			pstmt.setInt(3, countArticles);
 			rsList = pstmt.executeQuery();
@@ -311,6 +311,42 @@ public class CustomerServiceDAO {
 			
 			pstmt = conn.prepareStatement("SELECT * FROM QNA WHERE QSEQ =?");
 			pstmt.setInt(1, qseq);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				board = new BoardVO().setQseq(rs.getInt(1))
+						.setSubject(rs.getString(2))
+						.setContent(rs.getString(3))
+						.setReply(rs.getString(4))
+						.setId(rs.getString(5))
+						.setReq(rs.getString(6))
+						.setIndate(rs.getDate(7));
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!= null) rs.close();
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			}catch(SQLException e) {}
+		}
+		return board;
+	}
+	
+	public BoardVO reply (String content, int qseq) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		BoardVO board = null;
+		try {
+			conn = dataSource.getConnection();
+			pstmt = conn.prepareStatement("UPDATE QNA SET REPLY=? AND REQ=2 WHERE QSEQ=?");
+			pstmt.setString(1, content);
+			pstmt.setInt(2, qseq);
+			pstmt.executeUpdate();
+			pstmt.close();
+			
+			pstmt = conn.prepareStatement("SELECT * FROM QNA WHERE QSEQ = ?");
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				board = new BoardVO().setQseq(rs.getInt(1))
