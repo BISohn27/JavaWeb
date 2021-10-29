@@ -1,4 +1,4 @@
-package naverAPI;
+package com.example.sba.chat;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -42,9 +42,9 @@ public class APIExamTTS {
                 InputStream is = con.getInputStream();
                 int read = 0;
                 byte[] bytes = new byte[1024];
-                fileName = Long.valueOf(new Date().getTime()).toString();
-                File f = new File((fileName=fileName + ".mp3"));
-				//fileName = f.getCanonicalPath();
+                String temp = Long.valueOf(new Date().getTime()).toString();
+                File f = new File("/src/main/resources/static/audio/" +temp + ".mp3");
+				fileName = f.getCanonicalPath();
                 f.createNewFile();
                 OutputStream outputStream = new FileOutputStream(f);
                 while ((read =is.read(bytes)) != -1) {

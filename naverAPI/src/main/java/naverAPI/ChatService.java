@@ -22,12 +22,12 @@ public class ChatService {
 	}
 	
 	public void echo() throws IOException {
-		System.setProperty("file.encoding","UTF-8");
+		System.setProperty("file.encoding","ms949");
 //		OutputStream os = socket.getOutputStream();
 //		InputStream is = socket.getInputStream();
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "UTF-8"),true);
-		BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
-		BufferedReader con = new BufferedReader(new InputStreamReader(System.in, "UTF-8"));
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "ms949"),true);
+		BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "ms949"));
+		BufferedReader con = new BufferedReader(new InputStreamReader(System.in, "ms949"));
 		while(true) {
 			String msg = con.readLine();
 			out.println(msg);

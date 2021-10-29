@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Chat</title>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+	function sendMessage() {
+		let message = $('#chatbox').val();
+		if (message == '' || message.trim().length == 0) {
+			alert('메세지를 입력해주세요');
+		} else {
+			$.ajax({
+				type : "post",
+				dataType : "text",
+				async : true,
+				url : "/chat",
+				data : {
+					message : message
+				},
+				success : function(data, textStatus) {
+					let ul = $('#chat');
+					ul.append("<li>서버: " + data + "</li>");
+				},
+				error : function(data, textStatus) {
+					alert('에러 발생');
+				},
+				complete : function(data, textStatus) {
+				}
+			});
+		}
+	}
+</script>
+<style>
+	ul {
+		list-style: none;
+	}
+</style>
+
+</head>
+<body>
+	<audio th:src="${filename}" autoplay hidden="true"></audio>
+	<!-- <h1 th:text="${filename}"></h1> -->
+	<ul id="chat">
+		<li><span th:text="${msg}"></span></li>
+	</ul>
+	<textarea id="chatbox" name="chat"></textarea><input type="button" value="전송" onclick="sendMessage()">
+</body>
+</html>
