@@ -12,7 +12,7 @@
 		} else {
 			$.ajax({
 				type : "post",
-				dataType : "text",
+				dataType : "json",
 				async : true,
 				url : "/chat",
 				data : {
@@ -20,7 +20,9 @@
 				},
 				success : function(data, textStatus) {
 					let ul = $('#chat');
-					ul.append("<li>서버: " + data + "</li>");
+					$('#chatbox').val('');
+					ul.append("<li>나: " + data.sendmessage + "</li>");
+					ul.append("<li>서버: " + data.returnmessage + "</li>")
 				},
 				error : function(data, textStatus) {
 					alert('에러 발생');
@@ -39,8 +41,7 @@
 
 </head>
 <body>
-	<audio th:src="${filename}" autoplay hidden="true"></audio>
-	<!-- <h1 th:text="${filename}"></h1> -->
+	<!-- <audio th:src="audio/1635680789768.mp3" autoplay hidden="true"></audio> -->
 	<ul id="chat">
 		<li><span th:text="${msg}"></span></li>
 	</ul>

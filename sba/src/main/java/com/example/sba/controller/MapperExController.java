@@ -32,7 +32,6 @@ public class MapperExController {
 		try {
 			logger.info(id);
 			Member member = mapper.getLoginInfo(id);
-			logger.info(member.toString());
 			return new ResponseEntity<>(member, HttpStatus.BAD_REQUEST.OK);
 		}catch(Exception e) {
 			e.printStackTrace();

@@ -24,7 +24,7 @@ public class ChatService {
 
 			out.println(message);
 			send = br.readLine();
-			
+			System.out.println(send);			
 			socket.close();
 		} catch (Exception e) {
 			e.printStackTrace();

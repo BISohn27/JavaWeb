@@ -1,5 +1,8 @@
 package com.example.sba.controller;
 
+import java.util.Hashtable;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,8 +51,14 @@ public class Controller {
 	}
 	
 	@PostMapping("/chat")
-	public String chat(HttpServletRequest request) {
-		String chat = request.getParameter("chat");
-		return ChatService.getMessage(chat);
+	public Map<String,String> chat(HttpServletRequest request) {
+		Map<String,String> map = new Hashtable<>();
+		String sendMessage = request.getParameter("message");
+		String returnMessage = ChatService.getMessage(sendMessage);
+
+		map.put("sendmessage", sendMessage);
+		map.put("returnmessage", returnMessage);
+		
+		return map;
 	}
 }

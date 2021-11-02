@@ -42,9 +42,8 @@ public class APIExamTTS {
                 InputStream is = con.getInputStream();
                 int read = 0;
                 byte[] bytes = new byte[1024];
-                String temp = Long.valueOf(new Date().getTime()).toString();
-                File f = new File("/src/main/resources/static/audio/" +temp + ".mp3");
-				fileName = f.getCanonicalPath();
+                fileName = Long.valueOf(new Date().getTime()).toString() + ".mp3";
+                File f = new File("src/main/resources/static/audio/" + fileName);
                 f.createNewFile();
                 OutputStream outputStream = new FileOutputStream(f);
                 while ((read =is.read(bytes)) != -1) {

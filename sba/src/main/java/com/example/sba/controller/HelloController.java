@@ -1,5 +1,7 @@
 package com.example.sba.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import com.example.sba.mapper.MemberMapper;
 //viewresolver를 통해 사용할 뷰를 지정하는 것이 아니라 기본 json 방식의 데이터를 뿌리는 방식
 @RestController
 public class HelloController {
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@RequestMapping("/hello")
 	public String Hello() {
 		return "main.html";
