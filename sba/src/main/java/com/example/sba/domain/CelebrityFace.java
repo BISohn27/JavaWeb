@@ -75,7 +75,7 @@ public class CelebrityFace {
 			this.celebrity = celebrity;
 		}
 
-		private static class Celebrity {
+		public static class Celebrity {
 			private String value;
 			private int confidence;
 

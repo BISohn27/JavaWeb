@@ -8,8 +8,6 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +32,10 @@ public class AIContorller {
 	public ModelAndView goSignIn() {
 		return new ModelAndView("login");
 	}
+	@RequestMapping("/aiface")
+	public ModelAndView goAiFace() {
+		return new ModelAndView("aiface");
+	}
 	
 	@PostMapping("/signin")
 	public ModelAndView login(@Validated @RequestParam("email") String email, @Validated @RequestParam("pwd") String pwd, HttpServletRequest request) throws Exception{
@@ -45,28 +47,30 @@ public class AIContorller {
 			session.setAttribute("member", member);
 			
 			mav.addObject("session", session);
-			mav.setViewName("aiface");
+			mav.setViewName("index");
 		}else {
 			mav.setViewName("login");
 		}
 		return mav;
 	}
 	
-	@PostMapping("/aiface")
-	public ResponseEntity<?> aiface(
-			@Validated @RequestParam("mname") String mname,
-			@Validated @RequestParam("content") String content,
-			@Validated @RequestParam("files") MultipartFile file) throws Exception{
+	@PostMapping("/saveface")
+	public ModelAndView saveFace(
+			@Validated @RequestParam("files") MultipartFile file,
+			HttpServletRequest request) throws Exception{
+		ModelAndView mav = new ModelAndView();
+		HttpSession session=request.getSession();
+		Member member = (Member)(session.getAttribute("member"));
+		int mNo=member.getMno();
+		
 		try {
-			logger.info(mname);
-			logger.info(content);
-			logger.info(file.getOriginalFilename());
 			String fileName = "\\"+file.getOriginalFilename();
 			file.transferTo(new File(new File("").getAbsolutePath() + fileName));
-			return new ResponseEntity<>(aiService.faceData(fileName), HttpStatus.BAD_REQUEST.OK);
+			aiService.saveFaceData(fileName, mNo);
+			mav.setViewName("index");
 		}catch(Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+		return mav;	
 	}
 }

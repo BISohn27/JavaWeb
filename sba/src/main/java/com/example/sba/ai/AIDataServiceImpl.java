@@ -15,20 +15,19 @@ import com.google.gson.Gson;
 public class AIDataServiceImpl {
 	@Autowired
 	private MemberMapper mapper;
-	public List<Member> faceData(String fileName) {
-		String jsonData = new APIExamFace().getCelebrityFaceData(fileName);
-		
-		return dataProc(jsonData);
+	@Autowired
+	private APIExamFace face;
+	
+	public void saveFaceData(String fileName,int mno) {
+		String jsonData = face.getCelebrityFaceData(fileName);
+		dataProc(jsonData, mno);
 	}
 	
-	public List<Member> dataProc(String jsonData) {
+	public void dataProc(String jsonData,int mno) {
 		Gson gson = new Gson();
 		Faces[] faces = gson.fromJson(jsonData.substring(jsonData.indexOf("["),jsonData.indexOf("]"+1)), Faces[].class);
-		CelebrityFace cf = gson.fromJson(jsonData, CelebrityFace.class);
-		cf.setFaces(faces);
-		List<Member> memberList = new ArrayList<>();
-		for(Faces facesObj : cf.getFaces()) {
-			memberList.add(mapper);
+		for(Faces facesObj : faces) {
+			mapper.putFaceData(mno, facesObj.getCelebrity().getValue(), facesObj.getCelebrity().getConfidence());
 		}
 	}
 }

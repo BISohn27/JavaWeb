@@ -3,6 +3,7 @@ package com.example.sba.mapper;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -15,6 +16,8 @@ public interface MemberMapper {
 	public List<Member> getMemberList () throws Exception;
 	@Select("select * from members where email=#{email}")
 	public Member getLoginInfo(@Param("email")String email)throws Exception;
+	@Insert("insert into face values(mno = #{mno}, value =#{value}, confidence =#{confidence}")
+	public void putFaceData(@Param("mno")int mno, @Param("value") String value, @Param("confidence") float confidence);
 	
 	//xml로 접근 시 사용하는 함수
 	//함수명과 xml id를 일치
