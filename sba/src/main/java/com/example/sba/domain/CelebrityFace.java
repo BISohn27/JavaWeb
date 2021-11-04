@@ -77,7 +77,7 @@ public class CelebrityFace {
 
 		public static class Celebrity {
 			private String value;
-			private int confidence;
+			private float confidence;
 
 			public String getValue() {
 				return value;
@@ -87,11 +87,11 @@ public class CelebrityFace {
 				this.value = value;
 			}
 
-			public int getConfidence() {
+			public float getConfidence() {
 				return confidence;
 			}
 
-			public void setConfidence(int confidence) {
+			public void setConfidence(float confidence) {
 				this.confidence = confidence;
 			}
 		}

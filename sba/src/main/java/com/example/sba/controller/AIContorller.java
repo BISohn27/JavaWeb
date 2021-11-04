@@ -1,6 +1,7 @@
 package com.example.sba.controller;
 
 import java.io.File;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -68,6 +69,33 @@ public class AIContorller {
 			file.transferTo(new File(new File("").getAbsolutePath() + fileName));
 			aiService.saveFaceData(fileName, mNo);
 			mav.setViewName("index");
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return mav;	
+	}
+	
+	@PostMapping("/facesignin")
+	public ModelAndView facelogin(
+			@Validated @RequestParam("files") MultipartFile file,
+			HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		
+		try {
+			String fileName = "\\"+file.getOriginalFilename();
+			file.transferTo(new File(new File("").getAbsolutePath() + fileName));
+			Map<String,Object> map = aiService.returnFace(fileName);
+			Member member = mapper.loginWithFace((String)map.get("value"), (float)map.get("confidence"));
+			
+			if(member != null) {
+				HttpSession session = request.getSession();
+				session.setAttribute("member", member);
+				
+				mav.addObject("session", session);
+				mav.setViewName("index");
+			}else {
+				mav.setViewName("login");
+			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
