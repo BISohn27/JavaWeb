@@ -1,4 +1,4 @@
-package com.example.sba.controller;
+package com.face.controller;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.example.sba.ai.AIDataServiceImpl;
-import com.example.sba.domain.Member;
-import com.example.sba.mapper.MemberMapper;
+import com.face.ai.AIDataServiceImpl;
+import com.face.domain.Member;
+import com.face.mapper.MemberMapper;
 
 @RestController
 public class AIContorller {
@@ -57,7 +57,7 @@ public class AIContorller {
 		return mav;
 	}
 	
-	@PostMapping("/registface")
+	@PostMapping("/saveface")
 	public ModelAndView saveFace(
 			@Validated @RequestParam("files") MultipartFile file,
 			HttpServletRequest request) {
@@ -70,9 +70,8 @@ public class AIContorller {
 		int mNo=member.getMno();
 		
 		try {
-			String fileName = new File("").getAbsolutePath()+ "\\"+format.format(date)+file.getOriginalFilename();
-			System.out.println(fileName);
-			file.transferTo(new File(fileName));
+			String fileName = format.format(date)+file.getOriginalFilename();
+			file.transferTo(new File(new File("").getAbsolutePath()+ "\\"+fileName));
 			aiService.saveFaceData(fileName, mNo);
 			mav.setViewName("index");
 		}catch(Exception e) {
@@ -86,10 +85,12 @@ public class AIContorller {
 			@Validated @RequestParam("files") MultipartFile file,
 			HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
+		SimpleDateFormat format = new SimpleDateFormat ( "yyyyMMddHHmmss");
+		Date date = new Date();
 		
 		try {
-			String fileName = "\\"+file.getOriginalFilename();
-			file.transferTo(new File(new File("").getAbsolutePath() + fileName));
+			String fileName = format.format(date)+file.getOriginalFilename();
+			file.transferTo(new File(new File("").getAbsolutePath()+ "\\"+fileName));
 			Map<String,Object> map = aiService.returnFace(fileName);
 			Member member = mapper.loginWithFace((String)map.get("value"), (float)map.get("confidence"));
 			

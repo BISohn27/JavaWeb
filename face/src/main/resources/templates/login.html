@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
+	function fn_process(){
+		var id = $('#email').val();
+		var pwd = $('#pwd').val();
+		if(id ==''|| id.trim().length ==0){
+			alert('이메일을 입력하세요');
+			return;
+		} else if(pwd ==''|| pwd.trim().length ==0){
+			alert('패스워드를 입력하세요');
+		} else{
+			$('#login').submit();
+		}
+	}
+</script>
+</head>
+<body>
+	<form id="login" action="/signin" method="post">
+		<input type="text" id="email" name="email"/>
+		<input type="password" id="pwd" name="pwd"/>
+		<input type="button" id="btnDuplicate" value="로그인" onclick="fn_process()"/>
+	</form>
+	<form action="/facesignin" method="post" enctype="multipart/form-data">
+		<input type="file" name="files" multiple="multiple"/>
+		<input type="submit" value="페이스 로그인">
+	</form>
+</body>
+</html>
