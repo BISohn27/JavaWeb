@@ -53,6 +53,7 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 			<prop key = "/order/orderdetail.order">orderdetail</prop>
 			<prop key = "/order/addcart.order">addcart</prop>
 			<prop key = "/order/deletecart.order">deletecart</prop>
+			<prop key = "/order/addorder.order">addorder</prop>
 		</props>
 	</property>
 </bean>

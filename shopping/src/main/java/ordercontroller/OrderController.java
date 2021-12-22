@@ -1,10 +1,14 @@
 package ordercontroller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
@@ -59,10 +63,9 @@ public class OrderController extends MultiActionController{
 		int pseq = Integer.parseInt(request.getParameter("pseq"));
 		int quantity = Integer.parseInt(request.getParameter("quantity"));
 		ModelAndView mav = new ModelAndView();
-		
 		if(orderDao.setCart(id,pseq,quantity)!=-1) {
 			mav.addObject("id",id);
-			mav.setViewName("redirect:/shopping/order/cart.order");
+			mav.setViewName("redirect:/order/cart.order");
 		}
 		
 		return mav;
@@ -97,6 +100,36 @@ public class OrderController extends MultiActionController{
 		mav.setViewName(viewName);
 		
 		return mav;
+	}
+	
+	public void addorder(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		request.setCharacterEncoding("utf-8");
+		String id = request.getParameter("id");
+		String cseq = request.getParameter("cseq");
+		String json = request.getParameter("data");
+		
+		System.out.println(cseq);
+		
+		List<OrderVO> list = new ArrayList<>();
+		
+		try {
+			JSONParser jsonParser = new JSONParser();
+			JSONArray jsonOrderArray = (JSONArray) jsonParser.parse(json);
+			JSONArray jsonCseqArray = (JSONArray) jsonParser.parse(cseq);
+			
+			for(int i=0; i<jsonOrderArray.size(); i++) {
+				JSONObject jsonObject = (JSONObject)jsonOrderArray.get(i);
+				list.add(new OrderVO().setPseq(Integer.parseInt(jsonObject.get("pseq").toString()))
+										.setQuantity(Integer.parseInt(jsonObject.get("quantity").toString())));
+			}
+			orderDao.putOrder(id, list);
+			
+			for(Object str : jsonCseqArray) {
+				orderDao.deleteCart(id, Integer.parseInt(str.toString()));
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public String getViewName(HttpServletRequest request) throws Exception{

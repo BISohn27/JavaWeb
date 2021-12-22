@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -148,6 +149,46 @@ public class OrderDAO {
 			}catch(SQLException e) {}
 		}
 		return result;
+	}
+	
+	public void putOrder(String id, List<OrderVO> list) throws Exception{
+		Connection conn = dataSource.getConnection();
+		PreparedStatement pstmt1 = null;
+		PreparedStatement pstmt2 = null;
+		ResultSet rs = null;
+		try {
+			pstmt1 = conn.prepareStatement("INSERT ORDERS(ID) VALUES(?)");
+			pstmt1.setString(1, id);
+			pstmt1.executeUpdate();
+			pstmt1.close();
+			
+			pstmt1 = conn.prepareStatement("SELECT OSEQ FROM ORDERS ORDER BY INDATE DESC LIMIT 1");
+			rs = pstmt1.executeQuery();
+			int oseq = -1;
+			
+			if(rs.next()) {
+				oseq = rs.getInt("oseq");
+			}
+			
+			for(OrderVO order : list) {
+				pstmt2 = conn.prepareStatement("INSERT ORDER_DETAIL(OSEQ,PSEQ,QUANTITY) VALUES(?,?,?)");
+				pstmt2.setInt(1, oseq);
+				pstmt2.setInt(2, order.getPseq());
+				pstmt2.setInt(3, order.getQuantity());
+				pstmt2.executeUpdate();
+				
+				pstmt2.close();
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(pstmt1 != null) pstmt1.close();
+				if(pstmt2 != null) pstmt2.close();
+				if(conn != null) conn.close();
+			}catch(SQLException e) {}
+		}
 	}
 	
 	public int deleteCart(String id, int cseq) throws Exception{
